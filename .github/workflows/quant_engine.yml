@@ -1,8 +1,9 @@
 name: Quantara Serverless Engine
 
-# Menggunakan workflow_dispatch agar bisa dipicu manual lewat tombol di GitHub UI
 on:
   workflow_dispatch: 
+  schedule:
+    - cron: '0 10 * * 1-5'
 
 jobs:
   run-data-pipeline:
@@ -19,10 +20,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install yfinance supabase pandas numpy
+          pip install yfinance supabase pandas numpy requests
 
       - name: Execute Quant Engine
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python seed_tickers.py
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py
