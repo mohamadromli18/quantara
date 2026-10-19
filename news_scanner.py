@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 import feedparser
 import yfinance as yf
 import requests
@@ -27,8 +28,11 @@ def fetch_sugar_price():
 
 def fetch_news_rss():
     """Mengambil berita terbaru dari Google News RSS dengan keyword komoditas/saham"""
-    query = "harga gula saham indonesia OR emiten makanan minuman"
-    rss_url = f"https://news.google.com/rss/search?q={query}&hl=id&gl=ID&ceid=ID:id"
+    raw_query = "harga gula saham indonesia OR emiten makanan minuman"
+    # Mengubah spasi dan karakter khusus menjadi URL-encoded (misal: spasi -> %20)
+    encoded_query = urllib.parse.quote(raw_query)
+    
+    rss_url = f"https://news.google.com/rss/search?q={encoded_query}&hl=id&gl=ID&ceid=ID:id"
     
     feed = feedparser.parse(rss_url)
     articles = []
