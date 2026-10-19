@@ -29,7 +29,7 @@ COMMODITY_TARGETS = [
     },
     {
         "category": "Batu Bara",
-        "ticker": "NCF=F", # Newcastle Coal Futures
+        "ticker": None, # Newcastle Coal Futures
         "query": "harga batu bara OR ekspor batu bara OR emiten batu bara",
         "affected": ["ADRO.JK", "PTBA.JK", "ITMG.JK", "BYAN.JK", "HRUM.JK"]
     },
