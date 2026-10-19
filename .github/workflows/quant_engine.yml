@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install yfinance supabase pandas numpy requests feedparser
+          pip install yfinance supabase pandas numpy requests feedparser google-genai
 
       - name: Execute News Scanner
         env:
