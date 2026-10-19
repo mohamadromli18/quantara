@@ -3,7 +3,7 @@ name: Quantara Serverless Engine
 on:
   workflow_dispatch: 
   schedule:
-    - cron: '0 10 * * 1-5'
+    - cron: '0 9,11 * * 1-5' # Berjalan beberapa kali sehari untuk memantau berita
 
 jobs:
   run-data-pipeline:
@@ -20,9 +20,18 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install yfinance supabase pandas numpy requests
+          pip install yfinance supabase pandas numpy requests feedparser
 
-      - name: Execute Quant Engine
+      - name: Execute News Scanner
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_NEWS_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_NEWS_CHAT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python news_scanner.py
+
+      - name: Execute Technical Quant Engine
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
